@@ -21,8 +21,7 @@ const images = () => {
         if (target && target.classList.contains('preview')) {
             const path = target.parentNode.getAttribute('href');
             bigImage.setAttribute('src', path);
-
-            console.log(imgPopup);
+            
             openModal(imgPopup, 'flex');
         }
 

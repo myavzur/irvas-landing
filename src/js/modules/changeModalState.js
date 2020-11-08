@@ -15,14 +15,10 @@ const changeModalState = (state) => {
             item.addEventListener(event, () => {
                 switch(item.nodeName) {
                     case 'SPAN':
-                        console.log('Это спэн!');
-
                         state[prop] = i;
                         break;
                     case 'INPUT': 
                         if (item.getAttribute('type') == 'checkbox') {
-                            console.log('Это чекбокс!');
-
                             const typeValue = item.nextElementSibling.nextElementSibling.innerHTML;
                             state[prop] = typeValue;
 
@@ -34,16 +30,13 @@ const changeModalState = (state) => {
                                 }
                             });
                         } else {
-                            console.log('Это не чекбокс, скорее всего, обычный инпут');
                             state[prop] = item.value;
                         }
                         break;
                     case 'SELECT' : 
-                        console.log('Это селект!');
                         state[prop] = item.value;
                         break;
                 }
-                console.log(state);
             });
         });
     }

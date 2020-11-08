@@ -40,8 +40,7 @@ const forms = (state) => {
 
             postData('assets/server.php', formData)
                 .then(res => {
-                    console.log(res);
-                    
+                    console.log(res); 
                     state = {};
                     statusMsg.textContent = message.success;
                 })
