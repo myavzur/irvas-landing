@@ -9,7 +9,7 @@ const forms = (state) => {
     const message = {
         loading: 'Отправка данных...',
         success: 'Отправлено! Мы свяжемся с вами!',
-        failure: 'Блять...'
+        failure: 'Произошла ошибка! Попробуйте позже.'
     };
 
     const postData = async (url, body) => {
@@ -22,17 +22,17 @@ const forms = (state) => {
         return await res.text();
     };
 
-    form.forEach( item => {
-        item.addEventListener('submit', (e) => {
+    form.forEach( itemForm => {
+        itemForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
             let statusMsg = document.createElement('div');
             statusMsg.classList.add('status');
-            item.appendChild(statusMsg);
+            itemForm.appendChild(statusMsg);
 
-            const formData = new FormData(item);
+            const formData = new FormData(itemForm);
 
-            if (item.getAttribute('data-calc') === 'end') {
+            if (itemForm.getAttribute('data-calc') === 'end') {
                 for (let key in state) {
                     formData.append(key, state[key]);
                 }
@@ -41,6 +41,8 @@ const forms = (state) => {
             postData('assets/server.php', formData)
                 .then(res => {
                     console.log(res);
+                    
+                    state = {};
                     statusMsg.textContent = message.success;
                 })
                 .catch(() => {
@@ -50,7 +52,7 @@ const forms = (state) => {
                     input.forEach(item => item.value = '');
                     setTimeout(() => {
                         statusMsg.remove();
-                    }, 5000);
+                    }, 3000);
                 });
         });
     });

@@ -1,3 +1,8 @@
+const closeModal = (modal) => {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+};
+
 const modals = () => {
     function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
         const trigger = document.querySelectorAll(triggerSelector),
@@ -12,7 +17,7 @@ const modals = () => {
                 }
 
                 windows.forEach(item => {
-                    item.style.display = 'none';
+                    closeModal(item);
                 });
     
                 modal.style.display = 'block';
@@ -23,18 +28,16 @@ const modals = () => {
 
         close.addEventListener('click', () => {
             windows.forEach(item => {
-                item.style.display = 'none';
+                closeModal(item);
             });
 
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
+            closeModal(modal);
             // document.body.classList.remove('modal-open');
         });
 
         modal.addEventListener('click', (e) => {
             if (e.target === modal && closeClickOverlay) {
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
+                closeModal(modal);
                 // document.body.classList.remove('modal-open');
             }
         });
@@ -83,3 +86,4 @@ const modals = () => {
 };
 
 export default modals;
+export {closeModal};
