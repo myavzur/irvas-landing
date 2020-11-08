@@ -1,7 +1,39 @@
-const closeModal = (modal) => {
+const modalTimerId = setTimeout(() => openModal(document.querySelector('body > .popup')), 5000);
+
+function calcScroll() {
+    const div = document.createElement('div');
+
+    div.style.width = '50px';
+    div.style.height = '50px';
+    div.style.overflowY = 'scroll';
+    div.style.visibility = 'hidden';
+
+    document.body.append(div);
+
+    const scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
+
+    return scrollWidth;        
+} 
+// Page not jumping anymore
+
+function closeModal (modal) {
     modal.style.display = 'none';
     document.body.style.overflow = '';
-};
+    document.body.style.marginRight = '0px';
+}
+
+function openModal(modal, display = 'block') {    
+    const scrollWidth = calcScroll();
+
+    modal.style.display = display;
+    document.body.style.overflow = 'hidden';
+    document.body.style.marginRight = `${scrollWidth}px`;
+
+    if (modalTimerId) {
+        clearTimeout(modalTimerId);
+    }
+}
 
 const modals = () => {
     function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
@@ -20,8 +52,7 @@ const modals = () => {
                     closeModal(item);
                 });
     
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+                openModal(modal);
                 // document.body.classList.add('modal-open');
             });
         });
@@ -41,13 +72,6 @@ const modals = () => {
                 // document.body.classList.remove('modal-open');
             }
         });
-    }
-
-    function showModalByTime(showModalSelector, time) {
-        setTimeout(function() {
-            document.querySelector(showModalSelector).style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }, time);
     }
 
     bindModal(
@@ -81,9 +105,7 @@ const modals = () => {
         '.popup_calc_end_close',
         false
     );
-
-    showModalByTime('.popup', 60000);
 };
 
 export default modals;
-export {closeModal};
+export {closeModal, openModal};
