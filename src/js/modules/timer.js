@@ -4,7 +4,7 @@ const timer = (daysSelector, hoursSelector, minutesSelector, secondsSelector, de
           seconds = Math.floor(t / 1000) % 60, // 123seconds % 60 = 2min 3sec = 2.3 = 0.3sec => return 3 sec
           minutes = Math.floor((t / 1000) / 60) % 60,
           hours = Math.floor((t / 1000) / 60 / 60) % 24,
-          days = Math.floor((t / 1000) / 60 / 60 / 24) % 7;
+          days = Math.floor((t / 1000) / 60 / 60 / 24);
 
         return {
             'total': t,
@@ -24,10 +24,21 @@ const timer = (daysSelector, hoursSelector, minutesSelector, secondsSelector, de
               timerId = setInterval(updateTimer, 1000);
 
         function updateTimer() {
-            days.textContent = addZero(getRemainingTime().days);
-            hours.textContent = addZero(getRemainingTime().hours);
-            minutes.textContent = addZero(getRemainingTime().minutes);
-            seconds.textContent = addZero(getRemainingTime().seconds);
+            const t = getRemainingTime();
+
+            if (t.total <= 0) {
+                days.textContent = '00';
+                hours.textContent = '00';
+                minutes.textContent = '00';
+                seconds.textContent = '00';
+                clearInterval(timerId);
+            } 
+            else {
+                days.textContent = addZero(t.days);
+                hours.textContent = addZero(t.hours);
+                minutes.textContent = addZero(t.minutes);
+                seconds.textContent = addZero(t.seconds);
+            }
         }
         updateTimer(); // init timer
     }
